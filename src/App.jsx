@@ -1,35 +1,129 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createContext, useCallback, useState } from "react";
+import "./App.css";
+import SearchInput from "./SearchInput";
+import ItemList from "./ItemList";
+import CounterButton from "./CounterButton";
+import WithRenderTracker from "./WithRenderTracker";
+
+const WithCounter = WithRenderTracker(CounterButton);
+const WithSearch = WithRenderTracker(SearchInput);
+const WithList = WithRenderTracker(ItemList);
+
+const array = [
+  "apple",
+  "banana",
+  "cherry",
+  "date",
+  "elderberry",
+  "fig",
+  "grape",
+  "honeydew",
+  "imbe",
+  "jackfruit",
+  "kiwi",
+  "lemon",
+  "mango",
+  "nectarine",
+  "orange",
+  "papaya",
+  "quince",
+  "raspberry",
+  "strawberry",
+  "tangerine",
+  "ugli",
+  "vanilla",
+  "watermelon",
+  "xigua",
+  "yellow plum",
+  "zucchini",
+  "almond",
+  "blueberry",
+  "cranberry",
+  "dragonfruit",
+  "eggplant",
+  "fennel",
+  "gooseberry",
+  "hazelnut",
+  "indigo",
+  "jujube",
+  "kumquat",
+  "lime",
+  "mulberry",
+  "olive",
+  "peach",
+  "quince",
+  "rambutan",
+  "sapodilla",
+  "tomato",
+  "umeboshi",
+  "voavanga",
+  "walnut",
+  "yam",
+  "zinfandel",
+  "avocado",
+  "breadfruit",
+  "cantaloupe",
+  "durian",
+  "elderberry",
+  "fig",
+  "grapefruit",
+  "huckleberry",
+  "iguana melon",
+  "loganberry",
+  "mandarin",
+  "nectar",
+  "persimmon",
+  "quince",
+  "rice",
+  "starfruit",
+  "tamarind",
+  "ugli fruit",
+  "vegetable",
+  "wax apple",
+  "xanthosoma",
+  "yuzu",
+  "artichoke",
+  "broccoli",
+  "cauliflower",
+  "dill",
+  "endive",
+  "fava bean",
+  "garlic",
+  "horseradish",
+  "iceberg lettuce",
+  "kale",
+  "leek",
+  "banana",
+  "mushrooms",
+  "nettles",
+  "onion",
+  "peas",
+  "radish",
+  "spinach",
+  "thyme",
+  "watercress",
+  "yams",
+  "zest",
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [search, setSearch] = useState("");
+
+  const memoizedCount = useCallback(() => setCount((val) => ++val), []);
+  const memoizedSearch = useCallback((val) => setSearch(val), []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <WithCounter
+        count={count}
+        setCount={memoizedCount}
+        name={"CounterButton"}
+      />
+      <WithSearch setSearch={memoizedSearch} name={"SearchInput"} />
+      <WithList array={array} search={search} name={"ItemList"} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
